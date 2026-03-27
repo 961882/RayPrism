@@ -62,17 +62,6 @@ rayprism upgrade           # 升级框架到最新版本
 rayprism unregister <name> # 从注册表移除项目
 ```
 
-## 安装
-
-```bash
-# npx（免安装）
-npx rayprism <command>
-
-# 全局安装
-npm install -g rayprism
-rayprism <command>
-```
-
 ## 框架结构
 
 ```
@@ -85,8 +74,6 @@ RayPrism/
 ├── AGENTS.md              ← AI Agent 主规则
 ├── CLAUDE.md              ← Claude Code 规则入口
 │
-├── setup/                 ← 旧版 bash 工具（保留兼容）
-│
 └── branches/              ← 四分支纯净模板（只读）
     ├── pro/               ← 知识管理 / Obsidian
     ├── content/           ← 内容创作流水线
@@ -96,6 +83,7 @@ RayPrism/
 
 ## 文档
 
+- [**使用手册**](setup/README.md) — 完整的一步一步指南
 - [验证清单](setup/checklist.md) — 初始化后的检查项
 
 ## License
