@@ -63,7 +63,7 @@
   ```
   预期输出：
   ```
-  👁️  RayPulse trigger.sh 启动
+  👁️  RayPrism trigger.sh 启动
   等待 SpecStory 写入新对话文件...
   ```
 

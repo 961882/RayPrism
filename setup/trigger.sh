@@ -17,7 +17,7 @@ LOG_FILE=".specstory/trigger.log"
 mkdir -p "$WATCH_DIR" "$DAILY_DIR"
 
 echo ""
-echo "👁️  RayPulse trigger.sh 启动"
+echo "👁️  RayPrism trigger.sh 启动"
 echo "================================"
 echo "📂 监听目录: $PROJECT_ROOT/$WATCH_DIR"
 echo "📋 日报目录: $PROJECT_ROOT/$DAILY_DIR"
@@ -63,7 +63,7 @@ fswatch -0 "$WATCH_DIR" | while IFS= read -r -d '' file; do
     # esac
     #
     # if [[ -n "$ACTIVE_KEY" ]]; then
-    #     python3 raypulse-mem0/ingest.py "$file"
+    #     python3 rayprism-mem0/ingest.py "$file"
     #     log "   🧠 Stage 2: Mem0 提炼完成 (provider: ${LLM_PROVIDER:-openai})"
     # else
     #     log "   ⚠️  Stage 2 跳过: 请在 .env 中配置 LLM_PROVIDER 和对应 API Key"

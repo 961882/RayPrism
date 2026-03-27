@@ -1,4 +1,4 @@
-# RayPulse
+# RayPrism
 
 > 面向 AI Agent 工作流的多分支框架模板——选择分支、一键实例化、AI 即刻开工。
 
@@ -20,14 +20,14 @@ cd ~/Projects/my-app
 
 ## 核心概念
 
-RayPulse 是**框架模板**，不是具体项目。
+RayPrism 是**框架模板**，不是具体项目。
 
 - `branches/` 下的四个分支模板是**只读的类定义**
 - 通过 `rp init` 将模板**实例化**为独立的项目空间
 - 框架升级通过 `rp upgrade` 一键完成，不影响项目产出
 
 ```
-RayPulse/（框架，只读）          实例化项目（可写）
+RayPrism/（框架，只读）          实例化项目（可写）
 ========================         ========================
 branches/                        my-app/
 ├── pro/                         ├── framework/ → branches/dev/  🔗
@@ -59,7 +59,7 @@ rp unregister <name> # 从注册表移除项目
 ## 框架结构
 
 ```
-RayPulse/
+RayPrism/
 ├── README.md              ← 当前文件
 ├── AGENTS.md              ← AI Agent 主规则
 ├── CLAUDE.md              ← Claude Code 规则入口

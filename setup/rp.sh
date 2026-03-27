@@ -1,5 +1,5 @@
 #!/bin/bash
-# rp — RayPulse 项目初始化工具
+# rp — RayPrism 项目初始化工具
 #
 # 用法:
 #   rp init <branch> <project-name> [--path /custom/dir] [--git]
@@ -15,10 +15,10 @@ set -e
 
 # ─── 路径解析 ────────────────────────────────────────────────────────
 SCRIPT_DIR="$(cd "$(dirname "$(readlink -f "${BASH_SOURCE[0]}" 2>/dev/null || echo "${BASH_SOURCE[0]}")")" && pwd)"
-RAYPULSE_HOME="$(cd "$SCRIPT_DIR/.." && pwd)"
-BRANCHES_DIR="$RAYPULSE_HOME/branches"
+RAYPRISM_HOME="$(cd "$SCRIPT_DIR/.." && pwd)"
+BRANCHES_DIR="$RAYPRISM_HOME/branches"
 DEFAULT_PROJECTS_DIR="$HOME/Projects"
-REGISTRY_DIR="$HOME/.raypulse"
+REGISTRY_DIR="$HOME/.rayprism"
 REGISTRY_FILE="$REGISTRY_DIR/registry.json"
 
 # ─── 颜色 ────────────────────────────────────────────────────────────
@@ -109,7 +109,7 @@ else:
 # ─── CMD: list ───────────────────────────────────────────────────────
 cmd_list() {
     echo ""
-    echo -e "${BOLD}📦 RayPulse 可用分支${NC}"
+    echo -e "${BOLD}📦 RayPrism 可用分支${NC}"
     echo "══════════════════════════════════"
     for b in pro content dev ops; do
         local ver="?"
@@ -141,7 +141,7 @@ cmd_projects() {
     fi
 
     echo ""
-    echo -e "${BOLD}📋 RayPulse 已注册项目 ($count)${NC}"
+    echo -e "${BOLD}📋 RayPrism 已注册项目 ($count)${NC}"
     echo "══════════════════════════════════════════════════════"
 
     python3 -c "
@@ -171,14 +171,14 @@ cmd_unregister() {
 
 # ─── CMD: status ─────────────────────────────────────────────────────
 cmd_status() {
-    [[ ! -f ".raypulse.json" ]] && log_err "当前目录不是 RayPulse 项目（缺少 .raypulse.json）"
+    [[ ! -f ".rayprism.json" ]] && log_err "当前目录不是 RayPrism 项目（缺少 .rayprism.json）"
 
     echo ""
-    echo -e "${BOLD}📋 RayPulse 项目信息${NC}"
+    echo -e "${BOLD}📋 RayPrism 项目信息${NC}"
     echo "══════════════════════════════════"
     python3 -c "
 import json, sys
-d = json.load(open('.raypulse.json'))
+d = json.load(open('.rayprism.json'))
 print(f\"  项目名称 : {d.get('name','?')}\")
 print(f\"  分支类型 : {d.get('branch','?')}\")
 print(f\"  框架来源 : {d.get('source','?')}\")
@@ -188,9 +188,9 @@ print(f\"  创建时间 : {d.get('created','?')}\")
 
     # 版本对比
     local source_dir branch current_ver latest_ver
-    source_dir=$(python3 -c "import json; print(json.load(open('.raypulse.json'))['source'])")
-    branch=$(python3 -c "import json; print(json.load(open('.raypulse.json'))['branch'])")
-    current_ver=$(python3 -c "import json; print(json.load(open('.raypulse.json')).get('template_version','?'))")
+    source_dir=$(python3 -c "import json; print(json.load(open('.rayprism.json'))['source'])")
+    branch=$(python3 -c "import json; print(json.load(open('.rayprism.json'))['branch'])")
+    current_ver=$(python3 -c "import json; print(json.load(open('.rayprism.json')).get('template_version','?'))")
     latest_ver="?"
     [[ -f "$source_dir/VERSION" ]] && latest_ver=$(cat "$source_dir/VERSION" | tr -d '[:space:]')
 
@@ -221,12 +221,12 @@ print(f\"  创建时间 : {d.get('created','?')}\")
 
 # ─── CMD: upgrade ────────────────────────────────────────────────────
 cmd_upgrade() {
-    [[ ! -f ".raypulse.json" ]] && log_err "当前目录不是 RayPulse 项目（缺少 .raypulse.json）"
+    [[ ! -f ".rayprism.json" ]] && log_err "当前目录不是 RayPrism 项目（缺少 .rayprism.json）"
 
     local source_dir branch current_ver latest_ver
-    source_dir=$(python3 -c "import json; print(json.load(open('.raypulse.json'))['source'])")
-    branch=$(python3 -c "import json; print(json.load(open('.raypulse.json'))['branch'])")
-    current_ver=$(python3 -c "import json; print(json.load(open('.raypulse.json')).get('template_version','?'))")
+    source_dir=$(python3 -c "import json; print(json.load(open('.rayprism.json'))['source'])")
+    branch=$(python3 -c "import json; print(json.load(open('.rayprism.json'))['branch'])")
+    current_ver=$(python3 -c "import json; print(json.load(open('.rayprism.json')).get('template_version','?'))")
     latest_ver="?"
     [[ -f "$source_dir/VERSION" ]] && latest_ver=$(cat "$source_dir/VERSION" | tr -d '[:space:]')
 
@@ -245,18 +245,18 @@ cmd_upgrade() {
     # 重新链接隐藏目录（合并模式）
     _link_hidden_dirs "$branch"
 
-    # 更新 .raypulse.json 中的版本号
+    # 更新 .rayprism.json 中的版本号
     python3 -c "
 import json
-d = json.load(open('.raypulse.json'))
+d = json.load(open('.rayprism.json'))
 d['template_version'] = '$latest_ver'
-json.dump(d, open('.raypulse.json', 'w'), indent=2, ensure_ascii=False)
+json.dump(d, open('.rayprism.json', 'w'), indent=2, ensure_ascii=False)
 "
     log_ok "模板版本已更新为 v${latest_ver}"
 
     # 更新注册表
     local name
-    name=$(python3 -c "import json; print(json.load(open('.raypulse.json'))['name'])")
+    name=$(python3 -c "import json; print(json.load(open('.rayprism.json'))['name'])")
     _register_project "$name" "$branch" "$(pwd)" "$source_dir" "$latest_ver"
 
     log_ok "框架已更新至最新版本"
@@ -357,7 +357,7 @@ _write_agents_md() {
 
 ## ⚠️ 框架只读声明（最高优先级）
 
-\`framework/\` 目录是从 RayPulse \`${branch}\` 分支拉取的只读框架，  
+\`framework/\` 目录是从 RayPrism \`${branch}\` 分支拉取的只读框架，  
 **禁止修改 \`framework/\` 下的任何文件**。框架升级请运行 \`rp upgrade\`。
 
 ## 📂 产出目录约束
@@ -417,7 +417,7 @@ cmd_init() {
     [[ -f "$branch_dir/VERSION" ]] && template_ver=$(cat "$branch_dir/VERSION" | tr -d '[:space:]')
 
     echo ""
-    echo -e "${BOLD}🚀 RayPulse · 初始化新项目${NC}"
+    echo -e "${BOLD}🚀 RayPrism · 初始化新项目${NC}"
     echo "══════════════════════════════════"
     echo "  分支类型 : $branch  ($(branch_desc $branch))"
     echo "  项目名称 : $project_name"
@@ -527,18 +527,18 @@ OVERRIDES_EOF
     # ⑦ 根目录 AGENTS.md（wrapper）
     _write_agents_md "$branch" "$project_name"
 
-    # ⑧ .raypulse.json 元信息
-    cat > .raypulse.json << EOF
+    # ⑧ .rayprism.json 元信息
+    cat > .rayprism.json << EOF
 {
   "name": "$project_name",
   "branch": "$branch",
   "source": "$branch_dir",
-  "raypulse_home": "$RAYPULSE_HOME",
+  "rayprism_home": "$RAYPRISM_HOME",
   "template_version": "$template_ver",
   "created": "$(date -u +%Y-%m-%dT%H:%M:%SZ)"
 }
 EOF
-    log_ok ".raypulse.json 元信息已写入（含模板版本 v${template_ver}）"
+    log_ok ".rayprism.json 元信息已写入（含模板版本 v${template_ver}）"
 
     # ⑨ .gitignore
     cat > .gitignore << 'EOF'
@@ -561,7 +561,7 @@ EOF
 
     # ⑩ 注册到全局注册表
     _register_project "$project_name" "$branch" "$project_path" "$branch_dir" "$template_ver"
-    log_ok "已注册到全局注册表 (~/.raypulse/registry.json)"
+    log_ok "已注册到全局注册表 (~/.rayprism/registry.json)"
 
     # ⑪ 执行分支 post-init hook（如存在）
     if [[ -x "$branch_dir/post-init.sh" ]]; then
@@ -624,7 +624,7 @@ case "$COMMAND" in
     upgrade)    cmd_upgrade ;;
     help|--help|-h)
         echo ""
-        echo -e "${BOLD}rp — RayPulse 项目工具${NC}"
+        echo -e "${BOLD}rp — RayPrism 项目工具${NC}"
         echo ""
         echo "命令："
         echo "  rp init <branch> <name> [--path /dir] [--git]   初始化新项目"

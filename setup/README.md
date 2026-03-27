@@ -1,4 +1,4 @@
-# RayPulse · `rp` 使用手册
+# RayPrism · `rp` 使用手册
 
 > 从框架模板到实体项目——一步一步的完整指南。
 
@@ -31,10 +31,10 @@
 
 ```bash
 # 方法 A: 创建符号链接到 PATH（推荐）
-ln -sf /path/to/RayPulse/setup/rp.sh ~/.local/bin/rp
+ln -sf /path/to/RayPrism/setup/rp.sh ~/.local/bin/rp
 
 # 方法 B: 添加 alias
-echo 'alias rp="bash /path/to/RayPulse/setup/rp.sh"' >> ~/.zshrc
+echo 'alias rp="bash /path/to/RayPrism/setup/rp.sh"' >> ~/.zshrc
 source ~/.zshrc
 ```
 
@@ -47,7 +47,7 @@ rp help
 预期输出:
 
 ```
-rp — RayPulse 项目工具
+rp — RayPrism 项目工具
 
 命令：
   rp init <branch> <name> [--path /dir] [--git]   初始化新项目
@@ -71,7 +71,7 @@ rp list
 输出:
 
 ```
-📦 RayPulse 可用分支
+📦 RayPrism 可用分支
 ══════════════════════════════════
   ● pro v0.1.0       专业文档 / 策略规划 / 分析报告
   ● content v0.1.0   内容创作 / 公众号 / 社媒运营
@@ -143,9 +143,9 @@ rp init dev my-app --git
 | ⑦ | 创建 `workspace/` 目录结构 | 分支专属子目录 |
 | ⑧ | 生成 `workspace/README.md` | 目录用途说明 |
 | ⑨ | 生成 `AGENTS.md` | AI 工具配置（含只读声明 + 覆盖说明） |
-| ⑩ | 写入 `.raypulse.json` | 项目元信息（名称、分支、版本） |
+| ⑩ | 写入 `.rayprism.json` | 项目元信息（名称、分支、版本） |
 | ⑪ | 生成 `.gitignore` | 排除框架链接和临时文件 |
-| ⑫ | 注册到全局注册表 | `~/.raypulse/registry.json` |
+| ⑫ | 注册到全局注册表 | `~/.rayprism/registry.json` |
 | ⑬ | 执行 post-init hook | `branches/dev/post-init.sh` |
 | ⑭ | Git 初始化（如 `--git`） | `git init` + 首次 commit |
 
@@ -160,12 +160,12 @@ my-app/                                         ← 项目根目录
 │
 │  ── 元信息 & Git ──────────────────────────────
 │
-├── .raypulse.json                               ← 📌 项目元信息 (221B)
+├── .rayprism.json                               ← 📌 项目元信息 (221B)
 │   {                                               ┌──────────────────────┐
 │     "name": "my-app",                             │ 记录分支、版本、来源 │
 │     "branch": "dev",                              │ rp status 读取此文件 │
-│     "source": "/.../RayPulse/branches/dev",       └──────────────────────┘
-│     "raypulse_home": "/.../RayPulse",
+│     "source": "/.../RayPrism/branches/dev",       └──────────────────────┘
+│     "rayprism_home": "/.../RayPrism",
 │     "template_version": "0.1.0",
 │     "created": "2026-03-27T11:43:14Z"
 │   }
@@ -187,7 +187,7 @@ my-app/                                         ← 项目根目录
 │
 │  ── 🔒 只读框架（符号链接，禁止修改）──────────
 │
-├── framework/  ──🔗──→ /Users/ray/Projects/RayPulse/branches/dev
+├── framework/  ──🔗──→ /Users/ray/Projects/RayPrism/branches/dev
 │   │
 │   ├── AGENTS.md                                ← 分支角色规则定义 (1119B)
 │   ├── CLAUDE.md                                ← Claude Code 兼容声明 (241B)
@@ -223,16 +223,16 @@ my-app/                                         ← 项目根目录
 ├── .agents/
 │   └── skills/
 │       ├── get-code-context-exa/  ──🔗──→
-│       │   /Users/ray/Projects/RayPulse/branches/dev/.agents/skills/get-code-context-exa/
+│       │   /Users/ray/Projects/RayPrism/branches/dev/.agents/skills/get-code-context-exa/
 │       │
 │       ├── ray-util-antigravity-bridging/  ──🔗──→
-│       │   /Users/ray/Projects/RayPulse/branches/dev/.agents/skills/ray-util-antigravity-bridging/
+│       │   /Users/ray/Projects/RayPrism/branches/dev/.agents/skills/ray-util-antigravity-bridging/
 │       │
 │       ├── tavily-search/  ──🔗──→
-│       │   /Users/ray/Projects/RayPulse/branches/dev/.agents/skills/tavily-search/
+│       │   /Users/ray/Projects/RayPrism/branches/dev/.agents/skills/tavily-search/
 │       │
 │       └── vercel-react-best-practices/  ──🔗──→
-│           /Users/ray/Projects/RayPulse/branches/dev/.agents/skills/vercel-react-best-practices/
+│           /Users/ray/Projects/RayPrism/branches/dev/.agents/skills/vercel-react-best-practices/
 │
 │  ── 📏 AI 规则（合并后的视图）─────────────────
 │  每个条目都是指向框架对应 rule 文件的符号链接
@@ -241,13 +241,13 @@ my-app/                                         ← 项目根目录
 ├── .claude/
 │   └── rules/
 │       ├── dev-contract.md  ──🔗──→
-│       │   /Users/ray/Projects/RayPulse/branches/dev/.claude/rules/dev-contract.md
+│       │   /Users/ray/Projects/RayPrism/branches/dev/.claude/rules/dev-contract.md
 │       │
 │       ├── diagram-communication.md  ──🔗──→
-│       │   /Users/ray/Projects/RayPulse/branches/dev/.claude/rules/diagram-communication.md
+│       │   /Users/ray/Projects/RayPrism/branches/dev/.claude/rules/diagram-communication.md
 │       │
 │       └── discussion-tracking.md  ──🔗──→
-│           /Users/ray/Projects/RayPulse/branches/dev/.claude/rules/discussion-tracking.md
+│           /Users/ray/Projects/RayPrism/branches/dev/.claude/rules/discussion-tracking.md
 │
 │  ── ✏️ 项目级自定义扩展（可写）────────────────
 │
@@ -272,7 +272,7 @@ my-app/                                         ← 项目根目录
 ### 符号链接关系全景图
 
 ```
-项目 my-app/                          RayPulse 框架
+项目 my-app/                          RayPrism 框架
 ═══════════════                       ═══════════════════════════════════
                                       branches/dev/
 framework/ ──────────────────────🔗──→ ├── AGENTS.md
@@ -297,7 +297,7 @@ GEMINI.md ───→ framework/GEMINI.md    ├── VERSION
 | 类型 | 标记 | 说明 |
 |------|------|------|
 | 🔒 只读 | `framework/`、`🔗` 链接 | 来自框架模板，禁止修改，用 `rp upgrade` 更新 |
-| ✏️ 可写-配置 | `overrides/`、`AGENTS.md`、`.raypulse.json` | 项目级配置，可自由编辑 |
+| ✏️ 可写-配置 | `overrides/`、`AGENTS.md`、`.rayprism.json` | 项目级配置，可自由编辑 |
 | 📁 可写-产出 | `workspace/` | AI 所有产出必须放在此目录 |
 
 ---
@@ -360,7 +360,7 @@ rp projects
 输出：
 
 ```
-📋 RayPulse 已注册项目 (3)
+📋 RayPrism 已注册项目 (3)
 ══════════════════════════════════════════════════════
   ● my-saas-app          dev      v0.1.0  /Users/ray/Projects/my-saas-app
   ● my-blog              content  v0.1.0  /Users/ray/Work/my-blog
@@ -392,17 +392,17 @@ rp status
 输出：
 
 ```
-📋 RayPulse 项目信息
+📋 RayPrism 项目信息
 ══════════════════════════════════
   项目名称 : my-app
   分支类型 : dev
-  框架来源 : /Users/ray/Projects/RayPulse/branches/dev
+  框架来源 : /Users/ray/Projects/RayPrism/branches/dev
   模板版本 : 0.1.0
   创建时间 : 2026-03-27T11:10:13Z
 
   模板版本 : v0.1.0 ✅ 已是最新
 
-  framework/ → /Users/ray/Projects/RayPulse/branches/dev
+  framework/ → /Users/ray/Projects/RayPrism/branches/dev
   overrides/  规则: 1, Skills: 0
 ```
 
@@ -410,7 +410,7 @@ rp status
 
 ## 8. 升级框架版本
 
-当 RayPulse 框架本体更新后（如 `branches/dev/VERSION` 从 `0.1.0` → `0.2.0`），在项目目录内运行：
+当 RayPrism 框架本体更新后（如 `branches/dev/VERSION` 从 `0.1.0` → `0.2.0`），在项目目录内运行：
 
 ```bash
 cd ~/Projects/my-app
@@ -421,7 +421,7 @@ rp upgrade
 
 ```
 ℹ️  版本变更: v0.1.0 → v0.2.0
-ℹ️  重新链接 framework → /Users/ray/Projects/RayPulse/branches/dev
+ℹ️  重新链接 framework → /Users/ray/Projects/RayPrism/branches/dev
 ✅ 链接 .agents/skills/（框架 + 覆盖合并）
 ✅ 链接 .claude/rules/（框架 + 覆盖合并）
 ✅ 模板版本已更新为 v0.2.0
@@ -431,7 +431,7 @@ rp upgrade
 `rp upgrade` 做的事情：
 1. 重新链接 `framework/` 符号链接
 2. 重新执行 `.agents/skills/` 和 `.claude/rules/` 的合并（保留 overrides）
-3. 更新 `.raypulse.json` 中的版本号
+3. 更新 `.rayprism.json` 中的版本号
 4. 更新全局注册表
 
 ---
@@ -492,10 +492,10 @@ rp unregister my-app
 
 ### Q: framework/ 不小心被修改了怎么办？
 
-`framework/` 是符号链接，指向 RayPulse 框架本体中的分支目录。如果被修改，其他使用同分支的项目也会受影响。恢复方法：
+`framework/` 是符号链接，指向 RayPrism 框架本体中的分支目录。如果被修改，其他使用同分支的项目也会受影响。恢复方法：
 
 ```bash
-cd /path/to/RayPulse
+cd /path/to/RayPrism
 git checkout branches/  # 恢复框架文件
 ```
 
@@ -511,7 +511,7 @@ git checkout branches/  # 恢复框架文件
 
 ```bash
 # 例如让 dev 分支自动初始化 npm
-vim /path/to/RayPulse/branches/dev/post-init.sh
+vim /path/to/RayPrism/branches/dev/post-init.sh
 ```
 
 > ⚠️ 注意：这会影响所有后续使用该分支创建的项目。

@@ -1,5 +1,5 @@
 #!/bin/bash
-# init.sh — RayPulse 框架一键初始化
+# init.sh — RayPrism 框架一键初始化
 # 用法: bash setup/init.sh
 
 set -e
@@ -8,7 +8,7 @@ PROJECT_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 cd "$PROJECT_ROOT"
 
 echo ""
-echo "🚀 RayPulse · 初始化开始"
+echo "🚀 RayPrism · 初始化开始"
 echo "=============================="
 echo "📁 项目根目录: $PROJECT_ROOT"
 echo ""
@@ -79,7 +79,7 @@ if [[ -f ".env.example" ]]; then
     echo "   ⚠️  .env.example 已存在，跳过"
 else
     cat > .env.example << 'EOF'
-# RayPulse 环境变量模板
+# RayPrism 环境变量模板
 # 复制为 .env 并填写真实值: cp .env.example .env
 
 # ── LLM 提供商选择（Stage 2 Mem0 提炼）──
