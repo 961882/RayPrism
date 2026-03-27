@@ -10,6 +10,7 @@ import { join } from 'node:path';
 import { pipeline } from 'node:stream/promises';
 import { createGunzip } from 'node:zlib';
 import { execSync } from 'node:child_process';
+import { fileURLToPath } from 'node:url';
 import { FRAMEWORK_DIR, BRANCHES_DIR, GITHUB_TARBALL, RAYPRISM_CACHE } from './constants.js';
 import { log } from './logger.js';
 
@@ -67,12 +68,12 @@ export async function ensureFramework({ force = false } = {}) {
 }
 
 /**
- * Get the template version for a branch.
+ * Get the RayPrism version (single source of truth: package.json).
  */
-export function getTemplateVersion(branch) {
-  const versionFile = join(BRANCHES_DIR, branch, 'VERSION');
-  if (existsSync(versionFile)) {
-    return readFileSync(versionFile, 'utf8').trim();
+export function getVersion() {
+  const pkgPath = join(fileURLToPath(import.meta.url), '..', '..', '..', 'package.json');
+  if (existsSync(pkgPath)) {
+    return JSON.parse(readFileSync(pkgPath, 'utf8')).version;
   }
   return '0.0.0';
 }

@@ -5,7 +5,7 @@
 import { existsSync, readFileSync, writeFileSync, rmSync, symlinkSync, readdirSync, lstatSync, readlinkSync, mkdirSync } from 'node:fs';
 import { join, basename } from 'node:path';
 import { log, C } from '../utils/logger.js';
-import { ensureFramework, getTemplateVersion } from '../utils/template.js';
+import { ensureFramework, getVersion } from '../utils/template.js';
 import { BRANCHES_DIR } from '../utils/constants.js';
 import { registerProject } from '../utils/registry.js';
 import { linkHiddenDirs } from './init.js';
@@ -23,7 +23,7 @@ export async function upgrade() {
   const branch = config.branch;
   const branchDir = join(BRANCHES_DIR, branch);
   const currentVer = config.template_version || '?';
-  const latestVer = getTemplateVersion(branch);
+  const latestVer = getVersion();
 
   if (currentVer === latestVer) {
     log.info(`模板已是最新版本: v${currentVer}`);

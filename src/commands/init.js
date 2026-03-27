@@ -15,7 +15,7 @@ import {
   VALID_BRANCHES, BRANCH_META, BRANCHES_DIR, WORKSPACE_DIR_DESC,
   DEFAULT_PROJECTS_DIR,
 } from '../utils/constants.js';
-import { ensureFramework, getTemplateVersion } from '../utils/template.js';
+import { ensureFramework, getVersion } from '../utils/template.js';
 import { registerProject } from '../utils/registry.js';
 
 // ─── Exported helper: link .agents/ .claude/ (merged mode) ──────────
@@ -185,7 +185,7 @@ export async function init(branch, projectName, opts = {}) {
     log.err(`目录已存在: ${projectPath}`);
   }
 
-  const templateVer = getTemplateVersion(branch);
+  const templateVer = getVersion();
 
   // Print banner
   console.log('');

@@ -5,7 +5,7 @@
 import { existsSync, readFileSync, lstatSync, readdirSync } from 'node:fs';
 import { join } from 'node:path';
 import { log, C } from '../utils/logger.js';
-import { getTemplateVersion } from '../utils/template.js';
+import { getVersion } from '../utils/template.js';
 
 export async function status() {
   const configPath = join(process.cwd(), '.rayprism.json');
@@ -26,10 +26,7 @@ export async function status() {
 
   // Version comparison
   const currentVer = config.template_version || '?';
-  let latestVer = '?';
-  if (config.source && existsSync(join(config.source, 'VERSION'))) {
-    latestVer = readFileSync(join(config.source, 'VERSION'), 'utf8').trim();
-  }
+  let latestVer = getVersion();
 
   console.log('');
   if (currentVer === latestVer) {

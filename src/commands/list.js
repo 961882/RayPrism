@@ -5,7 +5,7 @@
 import { existsSync } from 'node:fs';
 import { join } from 'node:path';
 import { VALID_BRANCHES, BRANCH_META, BRANCHES_DIR } from '../utils/constants.js';
-import { ensureFramework, getTemplateVersion } from '../utils/template.js';
+import { ensureFramework, getVersion } from '../utils/template.js';
 import { C } from '../utils/logger.js';
 
 export async function list() {
@@ -18,7 +18,7 @@ export async function list() {
   for (const b of VALID_BRANCHES) {
     const branchDir = join(BRANCHES_DIR, b);
     if (existsSync(branchDir)) {
-      const ver = getTemplateVersion(b);
+      const ver = getVersion();
       console.log(`  ${C.green('●')} ${C.bold(b)} ${C.dim('v' + ver)}   ${BRANCH_META[b].desc}`);
     } else {
       console.log(`  ${C.yellow('○')} ${b}   (分支目录未找到)`);
