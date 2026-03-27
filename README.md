@@ -5,16 +5,20 @@
 ## 快速开始
 
 ```bash
-# 1. 安装 rp 命令
+# 1. 克隆框架
+git clone https://github.com/961882/RayPrism.git
+cd RayPrism
+
+# 2. 安装 rp 命令
 ln -sf $(pwd)/setup/rp.sh ~/.local/bin/rp
 
-# 2. 查看可用分支
+# 3. 查看可用分支
 rp list
 
-# 3. 创建项目
+# 4. 创建项目
 rp init dev my-app --git
 
-# 4. 进入项目，开始工作
+# 5. 进入项目，开始工作
 cd ~/Projects/my-app
 ```
 
