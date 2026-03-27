@@ -1,5 +1,5 @@
 /**
- * rayprism init <branch> <name> [--path /dir] [--git]
+ * rayprism init <branch> <name> [--path /dir]
  *
  * Full port of rp.sh cmd_init logic to Node.js.
  */
@@ -196,7 +196,6 @@ export async function init(branch, projectName, opts = {}) {
   console.log(`  项目路径 : ${projectPath}`);
   console.log(`  框架来源 : ${branchDir}`);
   console.log(`  模板版本 : v${templateVer}`);
-  if (opts.git) console.log('  Git 初始 : ✅');
   console.log('');
 
   mkdirSync(projectPath, { recursive: true });
@@ -276,16 +275,6 @@ export async function init(branch, projectName, opts = {}) {
     }
   }
 
-  // ⑫ Git init
-  if (opts.git) {
-    log.info('初始化 Git 仓库...');
-    execSync('git init -q', { cwd: projectPath, stdio: 'pipe' });
-    execSync('git add -A', { cwd: projectPath, stdio: 'pipe' });
-    execSync(`git commit -q -m "init: rayprism init ${branch} ${projectName} (v${templateVer})"`, {
-      cwd: projectPath, stdio: 'pipe',
-    });
-    log.ok('Git 仓库已初始化并完成首次提交');
-  }
 
   // Done
   console.log('');

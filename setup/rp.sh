@@ -2,14 +2,14 @@
 # rp — RayPrism 项目初始化工具
 #
 # 用法:
-#   rp init <branch> <project-name> [--path /custom/dir] [--git]
+#   rp init <branch> <project-name> [--path /custom/dir]
 #   rp list
 #   rp projects
 #   rp unregister <project-name>
 #   rp status
 #   rp upgrade
 #
-# 分支: pro | content | dev | ops
+# 分支: pro | ink | dev | ops
 
 set -e
 
@@ -39,7 +39,7 @@ log_err()  { echo -e "${RED}❌ $1${NC}"; exit 1; }
 branch_desc() {
     case "$1" in
         pro)     echo "专业文档 / 策略规划 / 分析报告" ;;
-        content) echo "内容创作 / 公众号 / 社媒运营" ;;
+        ink)     echo "内容创作 / 公众号 / 社媒运营" ;;
         dev)     echo "软件开发 / 代码 / 架构设计" ;;
         ops)     echo "运维 / 自动化 / 系统管理" ;;
         *)       echo "未知分支" ;;
@@ -50,7 +50,7 @@ branch_desc() {
 branch_workspace_dirs() {
     case "$1" in
         pro)     echo "reports strategy analysis drafts references" ;;
-        content) echo "drafts published assets scheduled archive" ;;
+        ink)     echo "drafts published assets scheduled archive" ;;
         dev)     echo "src docs tests artifacts experiments" ;;
         ops)     echo "scripts configs runbooks logs incidents" ;;
         *)       echo "drafts output assets logs" ;;
@@ -111,7 +111,7 @@ cmd_list() {
     echo ""
     echo -e "${BOLD}📦 RayPrism 可用分支${NC}"
     echo "══════════════════════════════════"
-    for b in pro content dev ops; do
+    for b in pro ink dev ops; do
         local ver="?"
         [[ -f "$BRANCHES_DIR/$b/VERSION" ]] && ver=$(cat "$BRANCHES_DIR/$b/VERSION" | tr -d '[:space:]')
         if [[ -d "$BRANCHES_DIR/$b" ]]; then
@@ -121,7 +121,7 @@ cmd_list() {
         fi
     done
     echo ""
-    echo "用法: rp init <branch> <project-name> [--git]"
+    echo "用法: rp init <branch> <project-name>"
     echo ""
 }
 
@@ -396,11 +396,11 @@ cmd_init() {
     local branch="$1"
     local project_name="$2"
     local project_path="$3"
-    local use_git="$4"
+
 
     # 验证 branch
-    [[ ! "$branch" =~ ^(pro|content|dev|ops)$ ]] && \
-        log_err "无效分支: '$branch'。可用: pro, content, dev, ops"
+    [[ ! "$branch" =~ ^(pro|ink|dev|ops)$ ]] && \
+        log_err "无效分支: '$branch'。可用: pro, ink, dev, ops"
 
     # 验证 branch 目录存在
     local branch_dir="$BRANCHES_DIR/$branch"
@@ -424,7 +424,7 @@ cmd_init() {
     echo "  项目路径 : $project_path"
     echo "  框架来源 : $branch_dir"
     echo "  模板版本 : v${template_ver}"
-    [[ "$use_git" == "true" ]] && echo "  Git 初始 : ✅"
+
     echo ""
 
     mkdir -p "$project_path"
@@ -569,14 +569,7 @@ EOF
         log_ok "post-init hook 执行完成"
     fi
 
-    # ⑫ Git 初始化（如指定 --git）
-    if [[ "$use_git" == "true" ]]; then
-        log_info "初始化 Git 仓库..."
-        git init -q
-        git add -A
-        git commit -q -m "init: rp init $branch $project_name (v${template_ver})"
-        log_ok "Git 仓库已初始化并完成首次提交"
-    fi
+
 
     echo ""
     echo "══════════════════════════════════"
@@ -601,18 +594,16 @@ case "$COMMAND" in
         _branch="${1:-}"
         _name="${2:-}"
         _path=""
-        _git="false"
         shift 2 2>/dev/null || true
         while [[ $# -gt 0 ]]; do
             case "$1" in
                 --path) _path="$2"; shift 2 ;;
-                --git)  _git="true"; shift ;;
                 *) shift ;;
             esac
         done
         [[ -z "$_branch" || -z "$_name" ]] && \
-            log_err "用法: rp init <branch> <project-name> [--path /dir] [--git]"
-        cmd_init "$_branch" "$_name" "$_path" "$_git"
+            log_err "用法: rp init <branch> <project-name> [--path /dir]"
+        cmd_init "$_branch" "$_name" "$_path"
         ;;
     list)       cmd_list ;;
     projects)   cmd_projects ;;
@@ -626,19 +617,18 @@ case "$COMMAND" in
         echo -e "${BOLD}rp — RayPrism 项目工具${NC}"
         echo ""
         echo "命令："
-        echo "  rp init <branch> <name> [--path /dir] [--git]   初始化新项目"
+        echo "  rp init <branch> <name> [--path /dir]            初始化新项目"
         echo "  rp list                                          列出可用分支"
         echo "  rp projects                                      列出所有已注册项目"
         echo "  rp unregister <name>                             从注册表移除项目"
         echo "  rp status                                        查看当前项目信息"
         echo "  rp upgrade                                       更新框架符号链接"
         echo ""
-        echo "分支: pro | content | dev | ops"
+        echo "分支: pro | ink | dev | ops"
         echo ""
         echo "示例："
         echo "  rp init dev my-app"
-        echo "  rp init dev my-app --git"
-        echo "  rp init content my-blog --path ~/Work/my-blog"
+        echo "  rp init ink my-blog --path ~/Work/my-blog"
         echo "  rp projects"
         echo ""
         ;;

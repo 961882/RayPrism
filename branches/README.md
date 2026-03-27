@@ -7,6 +7,6 @@
 | 分支 | 通信模式 | 专属规则 | 项目级 Skills |
 |------|---------|---------|--------------|
 | `pro/` | 散文 + 表格 | — | — |
-| `content/` | 内容流水线 | `content-style.md` | 内容三件套 |
+| `ink/` | 内容流水线 | `content-style.md` | 内容三件套 |
 | `dev/` | 架构图优先 | `dev-contract.md` | antigravity-bridging |
 | `ops/` | 架构图优先 | `ops-runbook.md` | — |

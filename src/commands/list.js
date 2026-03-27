@@ -26,6 +26,6 @@ export async function list() {
   }
 
   console.log('');
-  console.log('用法: rayprism init <branch> <project-name> [--git]');
+  console.log('用法: rayprism init <branch> <project-name>');
   console.log('');
 }

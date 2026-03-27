@@ -1,6 +1,6 @@
 {
   "name": "rayprism",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Multi-branch AI Agent framework — one command to scaffold your AI workspace",
   "bin": {
     "rayprism": "bin/rayprism.js"

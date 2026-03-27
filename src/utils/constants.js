@@ -16,11 +16,11 @@ export const GITHUB_REPO = '961882/RayPrism';
 export const GITHUB_TARBALL = `https://github.com/${GITHUB_REPO}/archive/refs/heads/main.tar.gz`;
 
 // ─── Branch definitions ─────────────────────────────────────────────
-export const VALID_BRANCHES = ['pro', 'content', 'dev', 'ops'];
+export const VALID_BRANCHES = ['pro', 'ink', 'dev', 'ops'];
 
 export const BRANCH_META = {
   pro:     { desc: '专业文档 / 策略规划 / 分析报告',   dirs: 'reports strategy analysis drafts references' },
-  content: { desc: '内容创作 / 公众号 / 社媒运营',     dirs: 'drafts published assets scheduled archive' },
+  ink:     { desc: '内容创作 / 公众号 / 社媒运营',     dirs: 'drafts published assets scheduled archive' },
   dev:     { desc: '软件开发 / 代码 / 架构设计',       dirs: 'src docs tests artifacts experiments' },
   ops:     { desc: '运维 / 自动化 / 系统管理',         dirs: 'scripts configs runbooks logs incidents' },
 };

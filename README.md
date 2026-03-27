@@ -15,14 +15,14 @@ cd ~/Projects/my-app
 其他分支同理：
 
 ```bash
-npx rayprism init content my-blog --git    # 内容创作
+npx rayprism init ink my-blog              # 内容创作
 npx rayprism init pro my-report            # 专业文档
 npx rayprism init ops my-infra             # 运维管理
 ```
 
-> 💡 **频繁使用？** 全局安装更方便：`npm install -g rayprism`，之后直接 `rayprism init ...`
->
-> 首次运行会自动从 GitHub 下载模板到 `~/.rayprism/framework/`，后续使用缓存。
+> 💡 **Tips**
+> - 首次运行会自动从 GitHub 下载模板到 `~/.rayprism/framework/`，后续使用缓存
+> - 频繁使用？全局安装更方便：`npm i -g rayprism`，之后直接 `rayprism init ...`
 
 ## 核心概念
 
@@ -37,7 +37,7 @@ RayPrism/（框架，只读）          实例化项目（可写）
 ========================         ========================
 branches/                        my-app/
 ├── pro/                         ├── framework/ → branches/dev/  🔗
-├── content/   rayprism init     ├── .agents/skills/  (合并视图)
+├── ink/       rayprism init     ├── .agents/skills/  (合并视图)
 ├── dev/       ──────────────→   ├── .claude/rules/   (合并视图)
 └── ops/                         ├── overrides/       (自定义扩展)
                                  └── workspace/       (所有产出)
@@ -48,7 +48,7 @@ branches/                        my-app/
 | 分支 | 适合场景 | 主力技能 |
 |------|---------|---------|
 | **pro** | 知识整理 / Obsidian 笔记 | obsidian-markdown, obsidian-bases, json-canvas |
-| **content** | 公众号 / 内容创作 | ray-content-wechat-generating, ray-multi-party-mode |
+| **ink** | 公众号 / 内容创作 | ray-content-wechat-generating, ray-multi-party-mode |
 | **dev** | 工程开发 / 代码 | ray-util-antigravity-bridging, vercel-react-best-practices |
 | **ops** | 系统运维 / 排障 | tavily-search, agent-browser |
 
@@ -76,7 +76,7 @@ RayPrism/
 │
 └── branches/              ← 四分支纯净模板（只读）
     ├── pro/               ← 知识管理 / Obsidian
-    ├── content/           ← 内容创作流水线
+    ├── ink/               ← 内容创作流水线
     ├── dev/               ← 工程开发
     └── ops/               ← 系统运维
 ```

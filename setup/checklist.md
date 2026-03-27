@@ -27,7 +27,7 @@
   | 场景 | 执行命令 |
   |------|---------|
   | 知识整理 / 策略规划 | `npx rayprism init pro <项目名>` |
-  | 内容创作 / 公众号 | `npx rayprism init content <项目名>` |
+  | 内容创作 / 公众号 | `npx rayprism init ink <项目名>` |
   | 工程开发 / 代码 | `npx rayprism init dev <项目名>` |
   | 系统运维 | `npx rayprism init ops <项目名>` |
 

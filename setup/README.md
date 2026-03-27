@@ -24,7 +24,6 @@
 ### 前置条件
 
 - Node.js ≥ 18
-- Git（使用 `--git` 选项时需要）
 
 ### 方式一：npx（免安装，推荐尝鲜）
 
@@ -45,14 +44,14 @@ rayprism help
 rayprism — Multi-branch AI Agent Framework
 
 命令：
-  rayprism init <branch> <name> [--path /dir] [--git]   初始化新项目
+  rayprism init <branch> <name> [--path /dir]            初始化新项目
   rayprism list                                          列出可用分支
   rayprism projects                                      列出所有已注册项目
   rayprism status                                        查看当前项目信息
   rayprism upgrade                                       更新框架符号链接
   rayprism unregister <name>                             从注册表移除项目
 
-分支: pro | content | dev | ops
+分支: pro | ink | dev | ops
 ```
 
 ---
@@ -69,11 +68,11 @@ rayprism list
 📦 RayPrism 可用分支
 ══════════════════════════════════
   ● pro v0.1.0       专业文档 / 策略规划 / 分析报告
-  ● content v0.1.0   内容创作 / 公众号 / 社媒运营
+  ● ink v0.1.0       内容创作 / 公众号 / 社媒运营
   ● dev v0.1.0       软件开发 / 代码 / 架构设计
   ● ops v0.1.0       运维 / 自动化 / 系统管理
 
-用法: rayprism init <branch> <project-name> [--git]
+用法: rayprism init <branch> <project-name>
 ```
 
 ### 分支选择指南
@@ -81,7 +80,7 @@ rayprism list
 | 场景 | 选择分支 | 主力 Skills |
 |------|---------|-------------|
 | 写分析报告、策略文档、Obsidian 知识管理 | `pro` | obsidian-markdown, obsidian-bases, json-canvas |
-| 写公众号文章、小红书内容、社媒运营 | `content` | ray-content-wechat-generating, ray-multi-party-mode |
+| 写公众号文章、小红书内容、社媒运营 | `ink` | ray-content-wechat-generating, ray-multi-party-mode |
 | 写代码、做架构设计、开发应用 | `dev` | ray-util-antigravity-bridging, vercel-react-best-practices |
 | 系统运维、巡检排障、自动化脚本 | `ops` | agent-browser, tavily-search |
 
@@ -105,24 +104,13 @@ rayprism init dev my-saas-app
 ### 指定路径
 
 ```bash
-rayprism init content my-blog --path ~/Work/my-blog
+rayprism init ink my-blog --path ~/Work/my-blog
 ```
-
-### 初始化时同时创建 Git 仓库
-
-```bash
-rayprism init dev my-app --git
-```
-
-加 `--git` 后会自动：
-1. `git init`
-2. 生成排除框架符号链接的 `.gitignore`
-3. `git add -A && git commit -m "init: rayprism init dev my-app (v0.1.0)"`
 
 ### 完整初始化流程（背后发生了什么）
 
 ```
-rayprism init dev my-app --git
+rayprism init dev my-app
 ```
 
 执行步骤：
@@ -141,13 +129,12 @@ rayprism init dev my-app --git
 | ⑩ | 写入 `.rayprism.json` | 项目元信息（名称、分支、版本） |
 | ⑪ | 注册到全局注册表 | `~/.rayprism/registry.json` |
 | ⑫ | 执行 post-init hook | `branches/dev/post-init.sh` |
-| ⑬ | Git 初始化（如 `--git`） | `git init` + 首次 commit |
 
 ---
 
 ## 4. 理解项目目录结构
 
-以 `rayprism init dev my-app --git` 为例（dev 分支）：
+以 `rayprism init dev my-app` 为例（dev 分支）：
 
 ```
 my-app/
@@ -246,7 +233,7 @@ rayprism projects
 📋 RayPrism 已注册项目 (3)
 ══════════════════════════════════════════════════════
   ● my-saas-app          dev      v0.1.0  /Users/ray/Projects/my-saas-app
-  ● my-blog              content  v0.1.0  /Users/ray/Work/my-blog
+  ● my-blog              ink      v0.1.0  /Users/ray/Work/my-blog
   ○ deleted-project      pro      v0.1.0  /Users/ray/Projects/deleted-project
 ```
 
@@ -331,7 +318,7 @@ rayprism upgrade
 | 分支 | workspace/ 子目录 |
 |------|-------------------|
 | **pro** | `reports/` `strategy/` `analysis/` `drafts/` `references/` |
-| **content** | `drafts/` `published/` `assets/` `scheduled/` `archive/` |
+| **ink** | `drafts/` `published/` `assets/` `scheduled/` `archive/` |
 | **dev** | `src/` `docs/` `tests/` `artifacts/` `experiments/` |
 | **ops** | `scripts/` `configs/` `runbooks/` `logs/` `incidents/` |
 
@@ -340,7 +327,7 @@ rayprism upgrade
 | 分支 | 自带 Skills |
 |------|------------|
 | **pro** | obsidian-markdown, obsidian-bases, json-canvas |
-| **content** | ray-content-wechat-generating, ray-multi-party-mode, ray-role-creator |
+| **ink** | ray-content-wechat-generating, ray-multi-party-mode, ray-role-creator |
 | **dev** | get-code-context-exa, ray-util-antigravity-bridging, tavily-search, vercel-react-best-practices |
 | **ops** | agent-browser, tavily-search |
 
@@ -349,7 +336,7 @@ rayprism upgrade
 | 分支 | 自带规则文件 |
 |------|-------------|
 | **pro** | diagram-communication.md, discussion-tracking.md |
-| **content** | content-style.md, diagram-communication.md, discussion-tracking.md |
+| **ink** | content-style.md, diagram-communication.md, discussion-tracking.md |
 | **dev** | dev-contract.md, diagram-communication.md, discussion-tracking.md |
 | **ops** | ops-runbook.md, diagram-communication.md, discussion-tracking.md |
 
@@ -397,7 +384,6 @@ rayprism unregister my-app
 | `rayprism help` | 查看帮助 | `rayprism help` |
 | `rayprism list` | 列出可用分支 | `rayprism list` |
 | `rayprism init <branch> <name>` | 初始化新项目 | `rayprism init dev my-app` |
-| `rayprism init ... --git` | 初始化 + Git | `rayprism init dev my-app --git` |
 | `rayprism init ... --path /dir` | 指定路径 | `rayprism init dev my-app --path ~/Work/app` |
 | `rayprism projects` | 列出所有项目 | `rayprism projects` |
 | `rayprism unregister <name>` | 从注册表移除 | `rayprism unregister old-project` |

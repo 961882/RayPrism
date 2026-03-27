@@ -4,7 +4,7 @@
  * rayprism — Multi-branch AI Agent Framework CLI
  *
  * Usage:
- *   rayprism init <branch> <name> [--path /dir] [--git]
+ *   rayprism init <branch> <name> [--path /dir]
  *   rayprism list
  *   rayprism projects
  *   rayprism status
@@ -24,18 +24,18 @@ const HELP = `
 \x1b[1mrayprism — Multi-branch AI Agent Framework\x1b[0m
 
 命令：
-  rayprism init <branch> <name> [--path /dir] [--git]   初始化新项目
+  rayprism init <branch> <name> [--path /dir]            初始化新项目
   rayprism list                                          列出可用分支
   rayprism projects                                      列出所有已注册项目
   rayprism status                                        查看当前项目信息
   rayprism upgrade                                       更新框架符号链接
   rayprism unregister <name>                             从注册表移除项目
 
-分支: pro | content | dev | ops
+分支: pro | ink | dev | ops
 
 示例：
   npx rayprism init dev my-app
-  npx rayprism init content my-blog --git
+  npx rayprism init ink my-blog
   rayprism list
   rayprism projects
 `;
@@ -50,7 +50,7 @@ async function main() {
         const branch = args[1];
         const name = args[2];
         if (!branch || !name) {
-          log.err('用法: rayprism init <branch> <name> [--path /dir] [--git]');
+          log.err('用法: rayprism init <branch> <name> [--path /dir]');
         }
         const opts = parseInitOpts(args.slice(3));
         await init(branch, name, opts);
@@ -102,12 +102,10 @@ async function main() {
 }
 
 function parseInitOpts(args) {
-  const opts = { path: '', git: false };
+  const opts = { path: '' };
   for (let i = 0; i < args.length; i++) {
     if (args[i] === '--path' && args[i + 1]) {
       opts.path = args[++i];
-    } else if (args[i] === '--git') {
-      opts.git = true;
     }
   }
   return opts;
