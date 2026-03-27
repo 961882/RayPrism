@@ -12,3 +12,6 @@ _archive/
 
 # VS Code workspace
 *.code-workspace
+
+# Node
+node_modules/

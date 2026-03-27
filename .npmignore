@@ -1,0 +1,13 @@
+# npm publish 时排除的文件
+branches/
+setup/
+_archive/
+.agents/
+.claude/
+.obsidian/
+.git/
+.DS_Store
+*.code-workspace
+AGENTS.md
+CLAUDE.md
+GEMINI.md
