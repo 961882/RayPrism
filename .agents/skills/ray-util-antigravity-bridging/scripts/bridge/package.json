@@ -1,0 +1,14 @@
+{
+  "name": "antigravity-bridge",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "run": "tsx src/runner.ts run",
+    "check": "tsx src/runner.ts check",
+    "kill": "tsx src/runner.ts kill",
+    "config": "tsx src/runner.ts config"
+  },
+  "devDependencies": {
+    "tsx": "^4"
+  }
+}

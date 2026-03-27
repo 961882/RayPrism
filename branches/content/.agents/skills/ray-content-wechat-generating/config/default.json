@@ -1,0 +1,16 @@
+{
+  "target_reader": "想尝鲜/想落地的实操人群",
+  "channel": "公众号",
+  "conversion_goal": "回复\"部署\"领取资料",
+  "style_profile": "practical",
+  "available_profiles": ["practical", "narrative"],
+  "default_cta": [
+    "回复\"部署\"领取《OpenClaw 部署对比 PDF》",
+    "回复\"代搭\"查看远程部署与安全优化服务"
+  ],
+  "title_count": 5,
+  "hook_versions": 2,
+  "cta_versions": 2,
+  "min_actions": 3,
+  "hook_length": {"min": 80, "max": 150}
+}

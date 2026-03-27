@@ -1,0 +1,18 @@
+{
+  "$comment": "默认运行参数。安全策略见 reference/definitions/security-policy.json，字段描述见 params.schema.json",
+  "forceBridge": true,
+  "strict": true,
+  "transport": "auto",
+  "cdpEndpoint": "http://127.0.0.1:9224",
+  "cdpTarget": "test01",
+  "pathOnlyReferences": true,
+  "passthroughOutput": true,
+  "model": "",
+  "serveModel": "claude",
+  "servePort": 8082,
+  "timeoutMs": 180000,
+  "pollIntervalMs": 2000,
+  "stablePolls": 2,
+  "serveStartupTimeoutMs": 12000
+}
+

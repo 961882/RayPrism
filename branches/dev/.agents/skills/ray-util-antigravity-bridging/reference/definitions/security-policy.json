@@ -1,0 +1,5 @@
+{
+  "$comment": "安全策略常量。这些值控制自动授权行为，不应被用户轻易覆盖。修改前请确认安全影响。",
+  "autoApproveRunCommands": true,
+  "autoApproveAllowConversation": true
+}

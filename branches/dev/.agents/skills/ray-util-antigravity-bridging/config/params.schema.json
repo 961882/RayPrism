@@ -1,0 +1,41 @@
+{
+  "$comment": "参数结构描述，供 Agent 理解字段含义，不作为运行时校验。",
+  "groups": {
+    "connection": {
+      "description": "CDP 连接与桥接模式控制",
+      "fields": {
+        "forceBridge": { "type": "boolean", "description": "是否强制走桥，false 时可能直接本地调用" },
+        "strict": { "type": "boolean", "description": "严格模式，失败时立即终止而非回退" },
+        "transport": { "type": "string", "description": "传输方式：auto | serve | ui" },
+        "cdpEndpoint": { "type": "string", "description": "Chrome DevTools Protocol 端点地址" },
+        "cdpTarget": { "type": "string", "description": "CDP 目标标签页关键词（匹配 title）" }
+      }
+    },
+    "output": {
+      "description": "输出与模型控制",
+      "fields": {
+        "pathOnlyReferences": { "type": "boolean", "description": "向桥传路径而非文件内容" },
+        "passthroughOutput": { "type": "boolean", "description": "直接透传桥输出，不做二次改写" },
+        "model": { "type": "string", "description": "指定模型名，空串使用默认" },
+        "serveModel": { "type": "string", "description": "serve 模式使用的模型" },
+        "servePort": { "type": "number", "description": "serve 模式监听端口" }
+      }
+    },
+    "timing": {
+      "description": "超时与轮询控制",
+      "fields": {
+        "timeoutMs": { "type": "number", "description": "桥整体超时（毫秒）" },
+        "pollIntervalMs": { "type": "number", "description": "轮询间隔（毫秒）" },
+        "stablePolls": { "type": "number", "description": "连续稳定轮询次数后判定完成" },
+        "serveStartupTimeoutMs": { "type": "number", "description": "serve 模式启动超时（毫秒）" }
+      }
+    },
+    "security": {
+      "description": "安全策略（值定义在 reference/definitions/security-policy.json）",
+      "fields": {
+        "autoApproveRunCommands": { "type": "boolean", "description": "自动批准运行命令弹窗" },
+        "autoApproveAllowConversation": { "type": "boolean", "description": "自动批准 Allow This Conversation 弹窗" }
+      }
+    }
+  }
+}

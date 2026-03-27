@@ -1,0 +1,8 @@
+# 运行时数据（自动生成）
+runs/
+
+# macOS
+.DS_Store
+
+# Node.js dependencies
+node_modules/
