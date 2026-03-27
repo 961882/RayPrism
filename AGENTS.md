@@ -1,5 +1,6 @@
 # AGENTS.md
 - 先说一声"hello321"
+- 别啰嗦
 
 ## 🔒 框架声明（最高优先级）
 
@@ -7,7 +8,7 @@
 
 - `branches/` 下的四个分支模板（pro / content / dev / ops）是**只读的类定义**
 - **禁止**在模板中添加项目级内容（产出文件、日志、临时数据）
-- 创建项目请使用 `rp init <branch> <project-name>`，产物输出到实例化的项目空间中
+- 创建项目请使用 `rayprism init <branch> <project-name>`，产物输出到实例化的项目空间中
 
 ## ⚠️ 通信模式：架构图优先 (CRITICAL)
 

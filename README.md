@@ -5,17 +5,23 @@
 ## 快速开始
 
 ```bash
-# 方式一：npx（免安装，推荐尝鲜）
+# 一行创建项目（自动下载，无需安装）
 npx rayprism init dev my-app
-
-# 方式二：全局安装（长期使用）
-npm install -g rayprism
-rayprism init dev my-app --git
 
 # 进入项目，开始工作
 cd ~/Projects/my-app
 ```
 
+其他分支同理：
+
+```bash
+npx rayprism init content my-blog --git    # 内容创作
+npx rayprism init pro my-report            # 专业文档
+npx rayprism init ops my-infra             # 运维管理
+```
+
+> 💡 **频繁使用？** 全局安装更方便：`npm install -g rayprism`，之后直接 `rayprism init ...`
+>
 > 首次运行会自动从 GitHub 下载模板到 `~/.rayprism/framework/`，后续使用缓存。
 
 ## 核心概念
@@ -78,7 +84,6 @@ RayPrism/
 ├── README.md              ← 当前文件
 ├── AGENTS.md              ← AI Agent 主规则
 ├── CLAUDE.md              ← Claude Code 规则入口
-├── GEMINI.md              ← Gemini CLI 规则入口
 │
 ├── setup/                 ← 旧版 bash 工具（保留兼容）
 │

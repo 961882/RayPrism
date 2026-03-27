@@ -214,12 +214,10 @@ export async function init(branch, projectName, opts = {}) {
   // ③ Link hidden dirs (merge mode)
   linkHiddenDirs(branch, branchDir, projectPath);
 
-  // ④ Link CLAUDE.md / GEMINI.md
-  for (const f of ['CLAUDE.md', 'GEMINI.md']) {
-    if (existsSync(join(branchDir, f))) {
-      symlinkSync(join('framework', f), join(projectPath, f));
-      log.ok(`链接 ${f}`);
-    }
+  // ④ Link CLAUDE.md
+  if (existsSync(join(branchDir, 'CLAUDE.md'))) {
+    symlinkSync(join('framework', 'CLAUDE.md'), join(projectPath, 'CLAUDE.md'));
+    log.ok('链接 CLAUDE.md');
   }
 
   // ⑤ workspace/ directories
@@ -354,7 +352,6 @@ framework
 .agents
 .claude
 CLAUDE.md
-GEMINI.md
 
 # 临时产出
 workspace/logs/

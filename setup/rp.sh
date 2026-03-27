@@ -481,10 +481,10 @@ OVERRIDES_EOF
     # ③ 链接 .agents/ .claude/ 等 AI 工具配置（合并模式）
     _link_hidden_dirs "$branch"
 
-    # ④ 链接 CLAUDE.md / GEMINI.md（如存在）
-    for f in CLAUDE.md GEMINI.md; do
-        [[ -f "$branch_dir/$f" ]] && ln -sf "framework/$f" "$f" && log_ok "链接 $f"
-    done
+    # ④ 链接 CLAUDE.md（如存在）
+    if [[ -f "$branch_dir/CLAUDE.md" ]]; then
+        ln -sf "framework/CLAUDE.md" "CLAUDE.md" && log_ok "链接 CLAUDE.md"
+    fi
 
     # ⑤ workspace/ 目录结构（按分支定制）
     IFS=' ' read -ra dirs <<< "$(branch_workspace_dirs $branch)"
@@ -551,7 +551,6 @@ framework
 .agents
 .claude
 CLAUDE.md
-GEMINI.md
 
 # 临时产出
 workspace/logs/

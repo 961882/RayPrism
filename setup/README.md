@@ -1,4 +1,4 @@
-# RayPrism · `rp` 使用手册
+# RayPrism · 使用手册
 
 > 从框架模板到实体项目——一步一步的完整指南。
 
@@ -23,39 +23,34 @@
 
 ### 前置条件
 
-- macOS（bash / zsh）
-- Python 3（系统自带）
+- Node.js ≥ 18
 - Git（使用 `--git` 选项时需要）
 
-### 安装 `rp` 命令
+### 方式一：npx（免安装，推荐尝鲜）
 
 ```bash
-# 方法 A: 创建符号链接到 PATH（推荐）
-ln -sf /path/to/RayPrism/setup/rp.sh ~/.local/bin/rp
-
-# 方法 B: 添加 alias
-echo 'alias rp="bash /path/to/RayPrism/setup/rp.sh"' >> ~/.zshrc
-source ~/.zshrc
+npx rayprism help
 ```
 
-### 验证安装
+### 方式二：全局安装（长期使用）
 
 ```bash
-rp help
+npm install -g rayprism
+rayprism help
 ```
 
 预期输出:
 
 ```
-rp — RayPrism 项目工具
+rayprism — Multi-branch AI Agent Framework
 
 命令：
-  rp init <branch> <name> [--path /dir] [--git]   初始化新项目
-  rp list                                          列出可用分支
-  rp projects                                      列出所有已注册项目
-  rp unregister <name>                             从注册表移除项目
-  rp status                                        查看当前项目信息
-  rp upgrade                                       更新框架符号链接
+  rayprism init <branch> <name> [--path /dir] [--git]   初始化新项目
+  rayprism list                                          列出可用分支
+  rayprism projects                                      列出所有已注册项目
+  rayprism status                                        查看当前项目信息
+  rayprism upgrade                                       更新框架符号链接
+  rayprism unregister <name>                             从注册表移除项目
 
 分支: pro | content | dev | ops
 ```
@@ -65,7 +60,7 @@ rp — RayPrism 项目工具
 ## 2. 查看可用分支
 
 ```bash
-rp list
+rayprism list
 ```
 
 输出:
@@ -78,7 +73,7 @@ rp list
   ● dev v0.1.0       软件开发 / 代码 / 架构设计
   ● ops v0.1.0       运维 / 自动化 / 系统管理
 
-用法: rp init <branch> <project-name> [--git]
+用法: rayprism init <branch> <project-name> [--git]
 ```
 
 ### 分支选择指南
@@ -97,206 +92,94 @@ rp list
 ### 基础用法
 
 ```bash
-rp init <branch> <project-name>
+rayprism init <branch> <project-name>
 ```
 
 项目会创建在 `~/Projects/<project-name>/`：
 
 ```bash
 # 示例: 创建一个开发项目
-rp init dev my-saas-app
+rayprism init dev my-saas-app
 ```
 
 ### 指定路径
 
 ```bash
-rp init content my-blog --path ~/Work/my-blog
+rayprism init content my-blog --path ~/Work/my-blog
 ```
 
 ### 初始化时同时创建 Git 仓库
 
 ```bash
-rp init dev my-app --git
+rayprism init dev my-app --git
 ```
 
 加 `--git` 后会自动：
 1. `git init`
 2. 生成排除框架符号链接的 `.gitignore`
-3. `git add -A && git commit -m "init: rp init dev my-app (v0.1.0)"`
+3. `git add -A && git commit -m "init: rayprism init dev my-app (v0.1.0)"`
 
 ### 完整初始化流程（背后发生了什么）
 
 ```
-rp init dev my-app --git
+rayprism init dev my-app --git
 ```
 
 执行步骤：
 
 | 步骤 | 操作 | 产物 |
 |------|------|------|
-| ① | 创建项目目录 | `~/Projects/my-app/` |
-| ② | 创建 `framework/` 符号链接 | 指向 `branches/dev/`（只读） |
-| ③ | 创建 `overrides/` 目录 | `overrides/rules/` + `overrides/skills/` |
-| ④ | 逐文件链接 `.agents/skills/` | 框架 skills + overrides 合并 |
-| ⑤ | 逐文件链接 `.claude/rules/` | 框架 rules + overrides 合并 |
-| ⑥ | 链接 `CLAUDE.md` / `GEMINI.md` | 指向 `framework/` 下的同名文件 |
-| ⑦ | 创建 `workspace/` 目录结构 | 分支专属子目录 |
-| ⑧ | 生成 `workspace/README.md` | 目录用途说明 |
+| ① | 下载模板（首次） | `~/.rayprism/framework/` |
+| ② | 创建项目目录 | `~/Projects/my-app/` |
+| ③ | 创建 `framework/` 符号链接 | 指向缓存中的 `branches/dev/`（只读） |
+| ④ | 创建 `overrides/` 目录 | `overrides/rules/` + `overrides/skills/` |
+| ⑤ | 逐文件链接 `.agents/skills/` | 框架 skills + overrides 合并 |
+| ⑥ | 逐文件链接 `.claude/rules/` | 框架 rules + overrides 合并 |
+| ⑦ | 链接 `CLAUDE.md` | 指向 `framework/` 下的同名文件 |
+| ⑧ | 创建 `workspace/` 目录结构 | 分支专属子目录 |
 | ⑨ | 生成 `AGENTS.md` | AI 工具配置（含只读声明 + 覆盖说明） |
 | ⑩ | 写入 `.rayprism.json` | 项目元信息（名称、分支、版本） |
-| ⑪ | 生成 `.gitignore` | 排除框架链接和临时文件 |
-| ⑫ | 注册到全局注册表 | `~/.rayprism/registry.json` |
-| ⑬ | 执行 post-init hook | `branches/dev/post-init.sh` |
-| ⑭ | Git 初始化（如 `--git`） | `git init` + 首次 commit |
+| ⑪ | 注册到全局注册表 | `~/.rayprism/registry.json` |
+| ⑫ | 执行 post-init hook | `branches/dev/post-init.sh` |
+| ⑬ | Git 初始化（如 `--git`） | `git init` + 首次 commit |
 
 ---
 
 ## 4. 理解项目目录结构
 
-以 `rp init dev my-app --git` 为例（dev 分支），生成的**完整**目录结构：
+以 `rayprism init dev my-app --git` 为例（dev 分支）：
 
 ```
-my-app/                                         ← 项目根目录
+my-app/
+├── .rayprism.json          ← 项目元信息
+├── .gitignore              ← 排除框架链接
+├── AGENTS.md               ← AI 工具配置（自动生成）
+├── CLAUDE.md  → framework/ ← 符号链接
 │
-│  ── 元信息 & Git ──────────────────────────────
+├── framework/  → ~/.rayprism/framework/branches/dev（只读🔒）
+│   ├── AGENTS.md
+│   ├── VERSION
+│   ├── .agents/skills/     ← 分支自带 Skills
+│   └── .claude/rules/      ← 分支自带规则
 │
-├── .rayprism.json                               ← 📌 项目元信息 (221B)
-│   {                                               ┌──────────────────────┐
-│     "name": "my-app",                             │ 记录分支、版本、来源 │
-│     "branch": "dev",                              │ rp status 读取此文件 │
-│     "source": "/.../RayPrism/branches/dev",       └──────────────────────┘
-│     "rayprism_home": "/.../RayPrism",
-│     "template_version": "0.1.0",
-│     "created": "2026-03-27T11:43:14Z"
-│   }
-├── .gitignore                                   ← 排除框架链接和临时文件 (193B)
-│   排除项:
-│     framework, .agents, .claude,
-│     CLAUDE.md, GEMINI.md,
-│     .env, .DS_Store,
-│     workspace/logs/, workspace/incidents/
-├── .git/                                        ← Git 仓库（仅 --git 时存在）
+├── .agents/skills/          ← 合并视图（框架 + overrides）
+├── .claude/rules/           ← 合并视图（框架 + overrides）
 │
-│  ── AI 工具入口 ───────────────────────────────
-│
-├── AGENTS.md                                    ← 🤖 自动生成的 wrapper (2129B)
-│   内容含：只读声明 + 产出约束 + 覆盖说明 + 分支规则
-│
-├── CLAUDE.md  ──🔗──→ framework/CLAUDE.md       ← 符号链接 (241B)
-├── GEMINI.md  ──🔗──→ framework/GEMINI.md       ← 符号链接 (298B)
-│
-│  ── 🔒 只读框架（符号链接，禁止修改）──────────
-│
-├── framework/  ──🔗──→ /Users/ray/Projects/RayPrism/branches/dev
-│   │
-│   ├── AGENTS.md                                ← 分支角色规则定义 (1119B)
-│   ├── CLAUDE.md                                ← Claude Code 兼容声明 (241B)
-│   ├── GEMINI.md                                ← Gemini CLI 兼容声明 (298B)
-│   ├── VERSION                                  ← 模板版本号 "0.1.0" (6B)
-│   ├── post-init.sh                             ← 初始化钩子脚本 (175B)
-│   │
-│   ├── .agents/
-│   │   └── skills/
-│   │       ├── get-code-context-exa/            ← Exa 代码上下文搜索
-│   │       │   └── SKILL.md
-│   │       ├── ray-util-antigravity-bridging/   ← Antigravity 桥接调用
-│   │       │   ├── SKILL.md
-│   │       │   └── scripts/
-│   │       │       └── bridge.ts
-│   │       ├── tavily-search/                   ← Tavily AI 搜索
-│   │       │   ├── SKILL.md
-│   │       │   └── scripts/
-│   │       │       └── search.sh
-│   │       └── vercel-react-best-practices/     ← React/Next.js 最佳实践
-│   │           └── SKILL.md
-│   │
-│   └── .claude/
-│       └── rules/
-│           ├── dev-contract.md                  ← 开发合约规则 (637B)
-│           ├── diagram-communication.md         ← 架构图通信模式 (3167B)
-│           └── discussion-tracking.md           ← 讨论追踪规范 (2314B)
-│
-│  ── 🧩 AI Skills（合并后的视图）───────────────
-│  每个条目都是指向框架对应 skill 的符号链接
-│  如果 overrides/skills/ 中有同名目录，本地优先
-│
-├── .agents/
+├── overrides/               ← ✏️ 项目级自定义（可写）
+│   ├── rules/
 │   └── skills/
-│       ├── get-code-context-exa/  ──🔗──→
-│       │   /Users/ray/Projects/RayPrism/branches/dev/.agents/skills/get-code-context-exa/
-│       │
-│       ├── ray-util-antigravity-bridging/  ──🔗──→
-│       │   /Users/ray/Projects/RayPrism/branches/dev/.agents/skills/ray-util-antigravity-bridging/
-│       │
-│       ├── tavily-search/  ──🔗──→
-│       │   /Users/ray/Projects/RayPrism/branches/dev/.agents/skills/tavily-search/
-│       │
-│       └── vercel-react-best-practices/  ──🔗──→
-│           /Users/ray/Projects/RayPrism/branches/dev/.agents/skills/vercel-react-best-practices/
 │
-│  ── 📏 AI 规则（合并后的视图）─────────────────
-│  每个条目都是指向框架对应 rule 文件的符号链接
-│  如果 overrides/rules/ 中有同名文件，本地优先
-│
-├── .claude/
-│   └── rules/
-│       ├── dev-contract.md  ──🔗──→
-│       │   /Users/ray/Projects/RayPrism/branches/dev/.claude/rules/dev-contract.md
-│       │
-│       ├── diagram-communication.md  ──🔗──→
-│       │   /Users/ray/Projects/RayPrism/branches/dev/.claude/rules/diagram-communication.md
-│       │
-│       └── discussion-tracking.md  ──🔗──→
-│           /Users/ray/Projects/RayPrism/branches/dev/.claude/rules/discussion-tracking.md
-│
-│  ── ✏️ 项目级自定义扩展（可写）────────────────
-│
-├── overrides/
-│   ├── README.md                                ← 使用说明
-│   ├── rules/                                   ← (空) 放 .md 规则文件
-│   │   └── (你的项目专属规则放这里)
-│   └── skills/                                  ← (空) 放 skill 目录
-│       └── (你的项目专属 Skills 放这里)
-│
-│  ── 📁 所有 AI 产出都在这里（可写）────────────
-│
-└── workspace/
-    ├── README.md                                ← 目录用途说明
-    ├── src/                                     ← 源代码
-    ├── docs/                                    ← 文档
-    ├── tests/                                   ← 测试
-    ├── artifacts/                               ← 构建产物
-    └── experiments/                             ← 实验代码
-```
-
-### 符号链接关系全景图
-
-```
-项目 my-app/                          RayPrism 框架
-═══════════════                       ═══════════════════════════════════
-                                      branches/dev/
-framework/ ──────────────────────🔗──→ ├── AGENTS.md
-                                      ├── CLAUDE.md
-CLAUDE.md ───→ framework/CLAUDE.md    ├── GEMINI.md
-GEMINI.md ───→ framework/GEMINI.md    ├── VERSION
-                                      ├── post-init.sh
-.agents/skills/                       ├── .agents/skills/
-├── get-code-context-exa/ ───────🔗──→│   ├── get-code-context-exa/
-├── ray-util-antigravity-.../ ───🔗──→│   ├── ray-util-antigravity-bridging/
-├── tavily-search/ ──────────────🔗──→│   ├── tavily-search/
-└── vercel-react-best-.../ ─────🔗──→│   └── vercel-react-best-practices/
-                                      │
-.claude/rules/                        └── .claude/rules/
-├── dev-contract.md ─────────────🔗──→    ├── dev-contract.md
-├── diagram-communication.md ────🔗──→    ├── diagram-communication.md
-└── discussion-tracking.md ──────🔗──→    └── discussion-tracking.md
+└── workspace/               ← 📁 所有 AI 产出（可写）
+    ├── src/ docs/ tests/
+    ├── artifacts/ experiments/
+    └── README.md
 ```
 
 ### 三种文件类型
 
 | 类型 | 标记 | 说明 |
 |------|------|------|
-| 🔒 只读 | `framework/`、`🔗` 链接 | 来自框架模板，禁止修改，用 `rp upgrade` 更新 |
+| 🔒 只读 | `framework/`、`🔗` 链接 | 来自框架模板，禁止修改，用 `rayprism upgrade` 更新 |
 | ✏️ 可写-配置 | `overrides/`、`AGENTS.md`、`.rayprism.json` | 项目级配置，可自由编辑 |
 | 📁 可写-产出 | `workspace/` | AI 所有产出必须放在此目录 |
 
@@ -313,11 +196,10 @@ description: 项目代码风格约束
 ---
 - 所有代码注释使用中文
 - 变量名使用 camelCase
-- 函数名使用 snake_case
 EOF
 ```
 
-运行 `rp upgrade` 后，该规则会自动合并到 `.claude/rules/code-style.md`。
+运行 `rayprism upgrade` 后，该规则会自动合并到 `.claude/rules/code-style.md`。
 
 ### 添加项目专属 Skill
 
@@ -335,7 +217,7 @@ description: 项目专属部署技能
 EOF
 ```
 
-运行 `rp upgrade` 后，该 Skill 会自动出现在 `.agents/skills/my-deploy-skill/`。
+运行 `rayprism upgrade` 后，该 Skill 会自动出现在 `.agents/skills/my-deploy-skill/`。
 
 ### 覆盖框架规则
 
@@ -343,8 +225,9 @@ EOF
 
 ```bash
 # 覆盖框架自带的 diagram-communication.md
-cp overrides/rules/diagram-communication.md  # 自定义版本
-rp upgrade  # 重新合并，本地优先
+cp framework/.claude/rules/diagram-communication.md overrides/rules/
+# 编辑你的自定义版本
+rayprism upgrade  # 重新合并，本地优先
 ```
 
 ---
@@ -354,7 +237,7 @@ rp upgrade  # 重新合并，本地优先
 ### 列出所有项目
 
 ```bash
-rp projects
+rayprism projects
 ```
 
 输出：
@@ -373,7 +256,7 @@ rp projects
 ### 从注册表移除项目
 
 ```bash
-rp unregister deleted-project
+rayprism unregister deleted-project
 ```
 
 > 仅从注册表移除，**不会删除项目目录**。
@@ -386,7 +269,7 @@ rp unregister deleted-project
 
 ```bash
 cd ~/Projects/my-app
-rp status
+rayprism status
 ```
 
 输出：
@@ -396,13 +279,13 @@ rp status
 ══════════════════════════════════
   项目名称 : my-app
   分支类型 : dev
-  框架来源 : /Users/ray/Projects/RayPrism/branches/dev
+  框架来源 : ~/.rayprism/framework/branches/dev
   模板版本 : 0.1.0
   创建时间 : 2026-03-27T11:10:13Z
 
   模板版本 : v0.1.0 ✅ 已是最新
 
-  framework/ → /Users/ray/Projects/RayPrism/branches/dev
+  framework/ → ~/.rayprism/framework/branches/dev
   overrides/  规则: 1, Skills: 0
 ```
 
@@ -410,29 +293,32 @@ rp status
 
 ## 8. 升级框架版本
 
-当 RayPrism 框架本体更新后（如 `branches/dev/VERSION` 从 `0.1.0` → `0.2.0`），在项目目录内运行：
+当 RayPrism 框架发布新版本后，在项目目录内运行：
 
 ```bash
 cd ~/Projects/my-app
-rp upgrade
+rayprism upgrade
 ```
 
 输出：
 
 ```
+ℹ️  正在从 GitHub 下载 RayPrism 模板...
+✅ 模板下载完成 → ~/.rayprism/framework/
 ℹ️  版本变更: v0.1.0 → v0.2.0
-ℹ️  重新链接 framework → /Users/ray/Projects/RayPrism/branches/dev
+ℹ️  重新链接 framework → ~/.rayprism/framework/branches/dev
 ✅ 链接 .agents/skills/（框架 + 覆盖合并）
 ✅ 链接 .claude/rules/（框架 + 覆盖合并）
 ✅ 模板版本已更新为 v0.2.0
 ✅ 框架已更新至最新版本
 ```
 
-`rp upgrade` 做的事情：
-1. 重新链接 `framework/` 符号链接
-2. 重新执行 `.agents/skills/` 和 `.claude/rules/` 的合并（保留 overrides）
-3. 更新 `.rayprism.json` 中的版本号
-4. 更新全局注册表
+`rayprism upgrade` 做的事情：
+1. 从 GitHub 重新下载最新模板
+2. 重新链接 `framework/` 符号链接
+3. 重新执行 `.agents/skills/` 和 `.claude/rules/` 的合并（保留 overrides）
+4. 更新 `.rayprism.json` 中的版本号
+5. 更新全局注册表
 
 ---
 
@@ -443,7 +329,7 @@ rp upgrade
 ### workspace/ 子目录
 
 | 分支 | workspace/ 子目录 |
-|------|--------------------|
+|------|-------------------|
 | **pro** | `reports/` `strategy/` `analysis/` `drafts/` `references/` |
 | **content** | `drafts/` `published/` `assets/` `scheduled/` `archive/` |
 | **dev** | `src/` `docs/` `tests/` `artifacts/` `experiments/` |
@@ -473,12 +359,12 @@ rp upgrade
 
 ### Q: 我可以同时有多个同类型分支的项目吗？
 
-**可以**。每个 `rp init` 创建独立的项目目录，互不干扰：
+**可以**。每个 `rayprism init` 创建独立的项目目录，互不干扰：
 
 ```bash
-rp init dev frontend-app
-rp init dev backend-api
-rp init dev data-pipeline
+rayprism init dev frontend-app
+rayprism init dev backend-api
+rayprism init dev data-pipeline
 ```
 
 ### Q: 删除项目怎么做？
@@ -487,34 +373,20 @@ rp init dev data-pipeline
 
 ```bash
 rm -rf ~/Projects/my-app
-rp unregister my-app
+rayprism unregister my-app
 ```
 
 ### Q: framework/ 不小心被修改了怎么办？
 
-`framework/` 是符号链接，指向 RayPrism 框架本体中的分支目录。如果被修改，其他使用同分支的项目也会受影响。恢复方法：
-
-```bash
-cd /path/to/RayPrism
-git checkout branches/  # 恢复框架文件
-```
+`framework/` 是符号链接，指向 `~/.rayprism/framework/` 中的缓存模板。运行 `rayprism upgrade` 即可重新下载并恢复。
 
 ### Q: 初始化后还需要安装其他东西吗？
 
-不需要。`rp init` 已完成所有配置。打开 Cursor / VS Code 即可开始工作。
+不需要。`rayprism init` 已完成所有配置。打开 Cursor / VS Code 即可开始工作。
 
-如果分支的 `post-init.sh` 中定义了额外逻辑（如 `npm init`），会在初始化时自动执行。
+### Q: 模板缓存在哪里？
 
-### Q: 如何自定义 post-init 行为？
-
-编辑框架中对应分支的 `post-init.sh`：
-
-```bash
-# 例如让 dev 分支自动初始化 npm
-vim /path/to/RayPrism/branches/dev/post-init.sh
-```
-
-> ⚠️ 注意：这会影响所有后续使用该分支创建的项目。
+`~/.rayprism/framework/` — 首次运行时从 GitHub 自动下载，后续使用缓存。运行 `rayprism upgrade` 可强制更新。
 
 ---
 
@@ -522,12 +394,12 @@ vim /path/to/RayPrism/branches/dev/post-init.sh
 
 | 命令 | 说明 | 示例 |
 |------|------|------|
-| `rp help` | 查看帮助 | `rp help` |
-| `rp list` | 列出可用分支（含版本号） | `rp list` |
-| `rp init <branch> <name>` | 初始化新项目 | `rp init dev my-app` |
-| `rp init ... --git` | 初始化 + Git | `rp init dev my-app --git` |
-| `rp init ... --path /dir` | 指定项目路径 | `rp init dev my-app --path ~/Work/my-app` |
-| `rp projects` | 列出所有已注册项目 | `rp projects` |
-| `rp unregister <name>` | 从注册表移除 | `rp unregister old-project` |
-| `rp status` | 查看当前项目信息 | `cd my-app && rp status` |
-| `rp upgrade` | 升级框架到最新版本 | `cd my-app && rp upgrade` |
+| `rayprism help` | 查看帮助 | `rayprism help` |
+| `rayprism list` | 列出可用分支 | `rayprism list` |
+| `rayprism init <branch> <name>` | 初始化新项目 | `rayprism init dev my-app` |
+| `rayprism init ... --git` | 初始化 + Git | `rayprism init dev my-app --git` |
+| `rayprism init ... --path /dir` | 指定路径 | `rayprism init dev my-app --path ~/Work/app` |
+| `rayprism projects` | 列出所有项目 | `rayprism projects` |
+| `rayprism unregister <name>` | 从注册表移除 | `rayprism unregister old-project` |
+| `rayprism status` | 查看当前项目 | `cd my-app && rayprism status` |
+| `rayprism upgrade` | 升级框架 | `cd my-app && rayprism upgrade` |

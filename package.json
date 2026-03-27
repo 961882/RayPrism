@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "description": "Multi-branch AI Agent framework — one command to scaffold your AI workspace",
   "bin": {
-    "rayprism": "./bin/rayprism.js"
+    "rayprism": "bin/rayprism.js"
   },
   "files": [
     "bin/",
@@ -29,7 +29,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/961882/RayPrism.git"
+    "url": "git+https://github.com/961882/RayPrism.git"
   },
   "homepage": "https://github.com/961882/RayPrism"
 }
